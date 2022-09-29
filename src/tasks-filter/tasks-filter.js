@@ -1,9 +1,9 @@
 import React from "react";
 import Button from '../button/button';
 
-import './footer-list.css'
+import './tasks-filter.css'
 
-const FooterList = ({className}) => {
+const TasksFilter = ({className}) => {
     return (
         <ul className={className}>
             <li>
@@ -19,4 +19,4 @@ const FooterList = ({className}) => {
     );
 }
 
-export default FooterList;
+export default TasksFilter;

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = ({className}) => {
+const NewTaskForm = ({className}) => {
     return (
         <header className={className}>
             <h1>todos</h1>
@@ -9,4 +9,4 @@ const Header = ({className}) => {
     );
 };
 
-export default Header;
+export default NewTaskForm;

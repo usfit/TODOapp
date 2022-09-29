@@ -1,6 +1,6 @@
 import React from "react";
 
-import FooterList from '../footer-list/footer-list';
+import TasksFilter from '../tasks-filter/tasks-filter';
 import Button from '../button/button';
 import Span from '../span/span';
 
@@ -10,7 +10,7 @@ const Footer = ({className}) => {
     return (
         <footer className={className}>
             <Span className={"todo-count"} text={'1 items left'} />
-            <FooterList className={'filters'}/>
+            <TasksFilter className={'filters'}/>
             <Button className={'clear-completed'} text={'Clear completed'}/>
         </footer>
     );

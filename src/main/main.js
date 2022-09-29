@@ -1,6 +1,6 @@
 import React from "react";
 
-import TodoList from '../todo-list/todo-list';
+import TaskList from '../task-list/task-list';
 import Footer from '../footer/footer';
 
 import './main.css'
@@ -8,7 +8,7 @@ import './main.css'
 const Main = ({className}) => {
     return (
         <section className={className}>
-            <TodoList className={'todo-list'} />
+            <TaskList className={'todo-list'} />
             <Footer className={'footer'} />
         </section>
     );

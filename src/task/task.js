@@ -1,7 +1,7 @@
 import React from "react";
 import View from '../view/view';
 
-const TodoListItem = ({className}) => {
+const Task = ({className}) => {
     return (
         <li className={className}>
             <View />
@@ -9,4 +9,4 @@ const TodoListItem = ({className}) => {
     );
 }
 
-export default TodoListItem;
+export default Task;
