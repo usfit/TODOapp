@@ -1,7 +1,8 @@
 import React from "react";
 
-import NewTaskForm from '../new-task-form/new-task-form';
-import Main from '../main/main';
+import NewTaskForm from '../new-task-form';
+import TaskList from '../task-list';
+import Footer from '../footer';
 
 import './todo-app.css';
 
@@ -9,7 +10,10 @@ const TodoApp = ({className}) => {
     return (
         <section className={className}>
             <NewTaskForm className={'header'}/>
-            <Main className={'main'}/>      
+            <section className='Main'>
+                <TaskList className={'todo-list'} />
+                <Footer className={'footer'} />
+            </section> 
         </section>
 
     );

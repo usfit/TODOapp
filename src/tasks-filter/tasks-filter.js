@@ -1,5 +1,4 @@
 import React from "react";
-import Button from '../button/button';
 
 import './tasks-filter.css'
 
@@ -7,13 +6,13 @@ const TasksFilter = ({className}) => {
     return (
         <ul className={className}>
             <li>
-                <Button className={'selected'} text={'All'} />
+                <button className={'selected'} > All </button>
             </li>
             <li>
-            <Button text={'Active'} />
+                <button> Active </button>
             </li>
             <li>
-            <Button text={'Completed'} />
+                <button> Completed </button>
             </li>
         </ul>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 // import ReactDOM from 'react-dom/client';
 import { createRoot } from 'react-dom/client';
-import TodoApp from './todo-app/todo-app';
+import TodoApp from './todo-app';
 
 import './style.css';
 
