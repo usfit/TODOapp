@@ -7,6 +7,13 @@ import Footer from '../footer';
 import './todo-app.css';
 
 const TodoApp = ({className}) => {
+
+    // const todoData = [
+    //     {label: 'Completed task', completed: true, editing: false},
+    //     {label: 'Editing task', completed: false, editing: true},
+    //     {label: 'Active task', completed: false, editing: false}
+    // ];
+
     return (
         <section className={className}>
             <NewTaskForm className={'header'}/>
@@ -15,7 +22,6 @@ const TodoApp = ({className}) => {
                 <Footer className={'footer'} />
             </section> 
         </section>
-
     );
 }
 
