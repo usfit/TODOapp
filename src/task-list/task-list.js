@@ -3,12 +3,17 @@ import Task from '../task';
 
 import './task-list.css'
 
-const TaskList = ({className}) => {
+const TaskList = ({className, todoData, deleteTask }) => {
+    const elements = todoData.map((item) => {
+        let {id, ...newItem} = {...item};
+        return (
+            <Task key={id} {...newItem} 
+            deleteTask = {() => deleteTask(id)} />
+        )
+    });
     return (
         <ul className={className}>
-            <Task className={'completed'} />
-            <Task className={'editing'} />
-            <Task />
+            {elements}
         </ul>
     );
 }
