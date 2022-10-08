@@ -2,23 +2,15 @@ import React, { Component } from "react";
 // import { formatDistanceToNow } from 'date-fns';
 
 class Task extends Component {
-    state = {
-        completed: this.props.completed,
-        editing: this.props.editing
-    }
-
-    changeCompleted = () => {
-        this.setState((state) => {
-            return {
-                completed: !state.completed
-            };
-        })
-    };
+    // state = {
+    //     completed: this.props.completed,
+    //     editing: this.props.editing,
+    // }
 
     render () {
 
-        const {label, deleteTask} = this.props;
-        const {completed=false, editing=false} = this.state;
+        const {label, deleteTask, changeCompleted, completed, editing} = this.props;
+        // const {completed=false, editing=false} = this.state;
 
         let className = '';
 
@@ -32,7 +24,7 @@ class Task extends Component {
         return (
             <li className={className}>
                 <div className="view">
-                    <input className="toggle" type='checkbox' onClick={this.changeCompleted}/>
+                    <input className="toggle" type='checkbox' onChange={changeCompleted} checked={completed}/>
                     <label>
                         <span className="description">
                             {label}
