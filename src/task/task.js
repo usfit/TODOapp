@@ -1,16 +1,30 @@
 import React, { Component } from "react";
-// import { formatDistanceToNow } from 'date-fns';
+import PropTypes from 'prop-types';
+import { formatDistanceToNowStrict } from 'date-fns';
 
 class Task extends Component {
-    // state = {
-    //     completed: this.props.completed,
-    //     editing: this.props.editing,
-    // }
+    
+    static defaultProps = {
+        label: 'New task',
+        completed: false,
+        editing: false,
+        dateCreated: new Date(),
+        deleteTask: () => {},
+        changeCompleted: () => {}
+    }
+
+    static propTypes = {
+        label: PropTypes.string,
+        completed: PropTypes.bool,
+        editing: PropTypes.bool,
+        dateCreated: PropTypes.instanceOf(Date),
+        deleteTask: PropTypes.func,
+        changeCompleted: PropTypes.func
+    }
 
     render () {
 
-        const {label, deleteTask, changeCompleted, completed, editing} = this.props;
-        // const {completed=false, editing=false} = this.state;
+        const {label, deleteTask, changeCompleted, completed, editing, dateCreated} = this.props;
 
         let className = '';
 
@@ -30,7 +44,7 @@ class Task extends Component {
                             {label}
                         </span>
                         <span className='created' >
-                            created 17 seconds ago
+                            created {formatDistanceToNowStrict(dateCreated, {includeSeconds: true})} ago
                         </span>
                     </label>
                     <button className='icon icon-edit' />

@@ -1,8 +1,21 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 
 import './tasks-filter.css'
 
 class TasksFilter extends Component {
+
+    static defaultProps = {
+        className: '',
+        filters: [],
+        changeFilter: () => {}
+    };
+
+    static propTypes = {
+        className: PropTypes.string,
+        filters: PropTypes.array,
+        changeFilter: PropTypes.func
+    }
 
     changeFilter = this.props.changeFilter;
 

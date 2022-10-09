@@ -1,10 +1,11 @@
 import React from "react";
+import PropTypes from 'prop-types';
 
 import TasksFilter from '../tasks-filter';
 
 import './footer.css'
 
-const Footer = ({className, filters, changeFilter, clearCompleted, activeCount}) => {
+const Footer = ({className, filters, activeCount, changeFilter, clearCompleted}) => {
 
     return (
         <footer className={className}>
@@ -19,6 +20,22 @@ const Footer = ({className, filters, changeFilter, clearCompleted, activeCount})
             </button>
         </footer>
     );
+}
+
+Footer.defaultProps = {
+    className: '', 
+    filters: [], 
+    activeCount: 0,
+    changeFilter: () => {}, 
+    clearCompleted: () => {}
+}
+
+Footer.propTypes = {
+    className: PropTypes.string, 
+    filters: PropTypes.array, 
+    activeCount: PropTypes.number,
+    changeFilter: PropTypes.func, 
+    clearCompleted: PropTypes.func
 }
 
 export default Footer;

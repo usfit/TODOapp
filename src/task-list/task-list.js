@@ -1,10 +1,12 @@
 import React from "react";
+import PropTypes from 'prop-types';
 import Task from '../task';
+
 
 import './task-list.css'
 
 
-const TaskList = ({ className, todoData, deleteTask, changeCompleted, filterName }) => {
+const TaskList = ({ className, todoData, filterName, deleteTask, changeCompleted}) => {
 
     const addElement = (todoData) => {
         return todoData.map((item) => {
@@ -35,5 +37,28 @@ const TaskList = ({ className, todoData, deleteTask, changeCompleted, filterName
         </ul>
     );
 }
+
+TaskList.defaultProps = {
+    className: '',
+    todoData: [
+        {label: 'New task', 
+        dateCreated: new Date(), 
+        completed: false, 
+        editing: false, 
+        id: 0}
+    ],
+    filterName: 'All',
+    deleteTask: () => {},
+    changeCompleted: () => {}
+}
+
+TaskList.propTypes = {
+    className: PropTypes.string,
+    todoData: PropTypes.arrayOf(PropTypes.object),
+    filterName: PropTypes.string,
+    deleteTask: PropTypes.func,
+    changeCompleted: PropTypes.func
+}
+
 
 export default TaskList;

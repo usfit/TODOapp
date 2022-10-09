@@ -12,9 +12,9 @@ class TodoApp extends Component {
 
     state = {
         todoData: [
-            {label: 'Completed task', completed: false, editing: false, id: 1},
-            {label: 'Editing task', completed: true, editing: false, id: 2},
-            {label: 'Active task', completed: false, editing: false, id: 3} 
+            {label: 'Completed task', dateCreated: new Date(), completed: false, editing: false, id: 1},
+            {label: 'Editing task', dateCreated: new Date(), completed: true, editing: false, id: 2},
+            {label: 'Active task', dateCreated: new Date(), completed: false, editing: false, id: 3} 
         ],
         filters: [
             {label: 'All', active: true, id: 1},
@@ -52,7 +52,7 @@ class TodoApp extends Component {
     addNewTask = (newTaskName) => {
         this.setState((state) => {
             let oldData = state.todoData;
-            let newTask = {label: newTaskName, completed: false, editing: false, id: this.nextIndex++};
+            let newTask = {label: newTaskName, dateCreated: new Date(), completed: false, editing: false, id: this.nextIndex++};
             let newData = [...oldData, newTask];
             return {
                 todoData: newData,
@@ -61,18 +61,18 @@ class TodoApp extends Component {
     }
 
     changeFilter = (e) => {
-        const idx = Number(e.target.name);
-        let newFilterName;
-        let newFilters = this.state.filters.map((item) => {
-            if(item.id === idx) {
-                item.active = true;
-                newFilterName = item.label;
-            } else {
-                item.active = false;
-            }
-            return item;
-        })
-        this.setState(() => {
+        this.setState((state) => {
+            const idx = Number(e.target.name);
+            let newFilterName;
+            let newFilters = state.filters.map((item) => {
+                if(item.id === idx) {
+                    item.active = true;
+                    newFilterName = item.label;
+                } else {
+                    item.active = false;
+                }
+                return item;
+            })
             return {
                 filters: newFilters,
                 filterName: newFilterName
@@ -103,7 +103,6 @@ class TodoApp extends Component {
                         todoData = {this.state.todoData} 
                         deleteTask = {(id) => this.deleteTask(id)}
                         changeCompleted = {(id) => this.changeCompleted(id)}
-                        filters = {this.state.filters}
                         filterName = {this.state.filterName}
                     />
                     <Footer className={'footer'} 

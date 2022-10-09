@@ -1,6 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 class NewTaskForm extends Component {
+
+    static defaultProps = {
+        className: '',
+        addNewTask: () => {}
+    }
+
+    static propTypes = {
+        className: PropTypes.string,
+        addNewTask: PropTypes.func
+    }
 
     state = {
         newTaskName: ''
