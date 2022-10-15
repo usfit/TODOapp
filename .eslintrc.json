@@ -17,7 +17,7 @@
     "plugin:import/warnings"
   ],
   "overrides": [],
-  "parser": "@babel/preset-env",
+  //   "parser": "@babel/preset-env",
   "parserOptions": {
     "ecmaVersion": "latest",
     "ecmaFeatures": {
@@ -45,13 +45,14 @@
     "react/no-did-mount-set-state": "off",
     "react/no-unused-prop-types": "off",
     "react/jsx-one-expression-per-line": "off",
+    "react/jsx-props-no-spreading": "off",
 
     "jsx-a11y/anchor-is-valid": ["error", { "components": ["Link"], "specialLink": ["to"] }],
     "jsx-a11y/label-has-for": [
       2,
       {
         "required": {
-          "every": ["id"]
+          "some": ["nesting", "id"]
         }
       }
     ],
@@ -59,7 +60,7 @@
     "indent": ["error", 2],
     "prettier/prettier": "error",
     "quotes": ["error", "single"],
-    "semi": ["error", "never"],
+    "semi": ["error", "always"],
     "react/react-in-jsx-scope": "off",
     "react/prop-types": 0,
     "import/no-unresolved": [2, { "caseSensitive": false }],

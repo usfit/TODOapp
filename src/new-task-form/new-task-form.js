@@ -2,56 +2,62 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class NewTaskForm extends Component {
+  constructor(props) {
+    super(props);
+    // eslint-disable-next-line react/no-unused-state
+    this.state = { newTaskName: '' };
+  }
 
-    static defaultProps = {
-        className: '',
-        addNewTask: () => {}
-    }
+  changeNameNewTask = (e) => {
+    this.setState(() => {
+      return {
+        newTaskName: e.target.value,
+      };
+    });
+  };
 
-    static propTypes = {
-        className: PropTypes.string,
-        addNewTask: PropTypes.func
-    }
+  onSubmit = (e) => {
+    e.preventDefault();
+    const addNewTask = this.props;
+    const newTaskName = this.state;
+    addNewTask(newTaskName);
+    this.setState(() => {
+      return {
+        newTaskName: '',
+      };
+    });
+  };
 
-    state = {
-        newTaskName: ''
-    }
+  render() {
+    const className = this.props;
+    const newTaskName = this.state;
 
-    changeNameNewTask = (e) => {
-        this.setState(() => {
-            return {
-                newTaskName: e.target.value
-            };
-        })
-    }
+    return (
+      <header className={className}>
+        <h1>todos</h1>
+        <form onSubmit={(e) => this.onSubmit(e, newTaskName)}>
+          <input
+            className="new-todo"
+            placeholder="What needs to be done?"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
+            autoFocus
+            onChange={this.changeNameNewTask}
+            value={newTaskName}
+          />
+        </form>
+      </header>
+    );
+  }
+}
 
-    onSubmit = (e) => {
-        e.preventDefault();
-        this.props.addNewTask(this.state.newTaskName);
-        this.setState(() => {
-            return {
-                newTaskName: ''
-            };
-        })
-    }
+NewTaskForm.defaultProps = {
+  className: '',
+  addNewTask: () => {},
+};
 
-    render() {
-        const className = this.props.className;
-        
-        return (
-            <header className={className}>
-                <h1>todos</h1>
-                <form 
-                    onSubmit={(e) => this.onSubmit(e, this.state.newTaskName)} >
-                        <input className="new-todo" 
-                            placeholder="What needs to be done?" 
-                            autoFocus 
-                            onChange={this.changeNameNewTask} 
-                            value={this.state.newTaskName} />
-                </form>
-            </header>
-        );
-    }
+NewTaskForm.propTypes = {
+  className: PropTypes.string,
+  addNewTask: PropTypes.func,
 };
 
 export default NewTaskForm;
