@@ -47,6 +47,9 @@
     "react/jsx-one-expression-per-line": "off",
     "react/jsx-props-no-spreading": "off",
 
+    "react/static-property-placement": ["error", "static public field"],
+    "react/state-in-constructor": [2, "never"],
+
     "jsx-a11y/anchor-is-valid": ["error", { "components": ["Link"], "specialLink": ["to"] }],
     "jsx-a11y/label-has-for": [
       2,

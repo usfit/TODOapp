@@ -2,11 +2,19 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class NewTaskForm extends Component {
-  constructor(props) {
-    super(props);
-    // eslint-disable-next-line react/no-unused-state
-    this.state = { newTaskName: '' };
-  }
+  static defaultProps = {
+    className: '',
+    addNewTask: () => {},
+  };
+
+  static propTypes = {
+    className: PropTypes.string,
+    addNewTask: PropTypes.func,
+  };
+
+  state = {
+    newTaskName: '',
+  };
 
   changeNameNewTask = (e) => {
     this.setState(() => {
@@ -18,8 +26,8 @@ class NewTaskForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const addNewTask = this.props;
-    const newTaskName = this.state;
+    const { addNewTask } = this.props;
+    const { newTaskName } = this.state;
     addNewTask(newTaskName);
     this.setState(() => {
       return {
@@ -29,8 +37,8 @@ class NewTaskForm extends Component {
   };
 
   render() {
-    const className = this.props;
-    const newTaskName = this.state;
+    const { className } = this.props;
+    const { newTaskName } = this.state;
 
     return (
       <header className={className}>
@@ -49,15 +57,5 @@ class NewTaskForm extends Component {
     );
   }
 }
-
-NewTaskForm.defaultProps = {
-  className: '',
-  addNewTask: () => {},
-};
-
-NewTaskForm.propTypes = {
-  className: PropTypes.string,
-  addNewTask: PropTypes.func,
-};
 
 export default NewTaskForm;

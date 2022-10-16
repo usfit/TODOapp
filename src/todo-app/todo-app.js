@@ -92,7 +92,8 @@ class TodoApp extends Component {
 
   render() {
     const { className } = this.props;
-    const activeCount = this.state.todoData.filter((item) => !item.completed).length;
+    const { filterName, filters, todoData } = this.state;
+    const activeCount = todoData.filter((item) => !item.completed).length;
 
     return (
       <section className={className}>
@@ -100,14 +101,14 @@ class TodoApp extends Component {
         <section className="Main">
           <TaskList
             className="todo-list"
-            todoData={this.state.todoData}
+            todoData={todoData}
             deleteTask={(id) => this.deleteTask(id)}
             changeCompleted={(id) => this.changeCompleted(id)}
-            filterName={this.state.filterName}
+            filterName={filterName}
           />
           <Footer
             className="footer"
-            filters={this.state.filters}
+            filters={filters}
             changeFilter={(e) => this.changeFilter(e)}
             clearCompleted={() => this.clearCompleted()}
             activeCount={activeCount}

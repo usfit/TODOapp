@@ -6,7 +6,8 @@ import Task from '../task';
 import './task-list.css';
 
 function TaskList({ className, todoData, filterName, deleteTask, changeCompleted }) {
-  const addElement = () => {
+  // eslint-disable-next-line no-shadow
+  const addElement = (todoData) => {
     return todoData.map((item) => {
       const { id, ...newItem } = { ...item };
       return (
