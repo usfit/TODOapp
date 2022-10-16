@@ -26,7 +26,9 @@ class NewTaskForm extends Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.addNewTask(this.state.newTaskName);
+    const { addNewTask } = this.props;
+    const { newTaskName } = this.state;
+    addNewTask(newTaskName);
     this.setState(() => {
       return {
         newTaskName: '',
@@ -35,18 +37,20 @@ class NewTaskForm extends Component {
   };
 
   render() {
-    const className = this.props.className;
+    const { className } = this.props;
+    const { newTaskName } = this.state;
 
     return (
       <header className={className}>
         <h1>todos</h1>
-        <form onSubmit={(e) => this.onSubmit(e, this.state.newTaskName)}>
+        <form onSubmit={(e) => this.onSubmit(e, newTaskName)}>
           <input
             className="new-todo"
             placeholder="What needs to be done?"
+            // eslint-disable-next-line jsx-a11y/no-autofocus
             autoFocus
             onChange={this.changeNameNewTask}
-            value={this.state.newTaskName}
+            value={newTaskName}
           />
         </form>
       </header>

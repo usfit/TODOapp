@@ -5,10 +5,11 @@ import Task from '../task';
 
 import './task-list.css';
 
-const TaskList = ({ className, todoData, filterName, deleteTask, changeCompleted }) => {
+function TaskList({ className, todoData, filterName, deleteTask, changeCompleted }) {
+  // eslint-disable-next-line no-shadow
   const addElement = (todoData) => {
     return todoData.map((item) => {
-      let { id, ...newItem } = { ...item };
+      const { id, ...newItem } = { ...item };
       return (
         <Task key={id} {...newItem} changeCompleted={() => changeCompleted(id)} deleteTask={() => deleteTask(id)} />
       );
@@ -28,7 +29,7 @@ const TaskList = ({ className, todoData, filterName, deleteTask, changeCompleted
   }
 
   return <ul className={className}>{elements}</ul>;
-};
+}
 
 TaskList.defaultProps = {
   className: '',

@@ -25,7 +25,7 @@ class TodoApp extends Component {
 
   deleteTask = (id) => {
     this.setState((state) => {
-      let newData = state.todoData.filter((item) => item.id !== id);
+      const newData = state.todoData.filter((item) => item.id !== id);
       return {
         todoData: newData,
       };
@@ -34,10 +34,10 @@ class TodoApp extends Component {
 
   changeCompleted = (id) => {
     this.setState((state) => {
-      let idx = state.todoData.findIndex((item) => item.id === id);
-      let changeItem = state.todoData[idx];
+      const idx = state.todoData.findIndex((item) => item.id === id);
+      const changeItem = state.todoData[idx];
       changeItem.completed = !changeItem.completed;
-      let newData = [...state.todoData.slice(0, idx), changeItem, ...state.todoData.slice(idx + 1)];
+      const newData = [...state.todoData.slice(0, idx), changeItem, ...state.todoData.slice(idx + 1)];
       return {
         todoData: newData,
       };
@@ -46,15 +46,15 @@ class TodoApp extends Component {
 
   addNewTask = (newTaskName) => {
     this.setState((state) => {
-      let oldData = state.todoData;
-      let newTask = {
+      const oldData = state.todoData;
+      const newTask = {
         label: newTaskName,
         dateCreated: new Date(),
         completed: false,
         editing: false,
         id: this.nextIndex++,
       };
-      let newData = [...oldData, newTask];
+      const newData = [...oldData, newTask];
       return {
         todoData: newData,
       };
@@ -65,7 +65,7 @@ class TodoApp extends Component {
     this.setState((state) => {
       const idx = Number(e.target.name);
       let newFilterName;
-      let newFilters = state.filters.map((item) => {
+      const newFilters = state.filters.map((item) => {
         if (item.id === idx) {
           item.active = true;
           newFilterName = item.label;
@@ -83,7 +83,7 @@ class TodoApp extends Component {
 
   clearCompleted = () => {
     this.setState((state) => {
-      let newData = state.todoData.filter((item) => !item.completed);
+      const newData = state.todoData.filter((item) => !item.completed);
       return {
         todoData: newData,
       };
@@ -92,22 +92,23 @@ class TodoApp extends Component {
 
   render() {
     const { className } = this.props;
-    const activeCount = this.state.todoData.filter((item) => !item.completed).length;
+    const { filterName, filters, todoData } = this.state;
+    const activeCount = todoData.filter((item) => !item.completed).length;
 
     return (
       <section className={className}>
-        <NewTaskForm className={'header'} addNewTask={(e, newTaskName) => this.addNewTask(e, newTaskName)} />
+        <NewTaskForm className="header" addNewTask={(e, newTaskName) => this.addNewTask(e, newTaskName)} />
         <section className="Main">
           <TaskList
-            className={'todo-list'}
-            todoData={this.state.todoData}
+            className="todo-list"
+            todoData={todoData}
             deleteTask={(id) => this.deleteTask(id)}
             changeCompleted={(id) => this.changeCompleted(id)}
-            filterName={this.state.filterName}
+            filterName={filterName}
           />
           <Footer
-            className={'footer'}
-            filters={this.state.filters}
+            className="footer"
+            filters={filters}
             changeFilter={(e) => this.changeFilter(e)}
             clearCompleted={() => this.clearCompleted()}
             activeCount={activeCount}
