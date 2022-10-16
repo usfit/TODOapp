@@ -28,12 +28,14 @@ class NewTaskForm extends Component {
     e.preventDefault();
     const { addNewTask } = this.props;
     const { newTaskName } = this.state;
-    addNewTask(newTaskName);
-    this.setState(() => {
-      return {
-        newTaskName: '',
-      };
-    });
+    if (newTaskName.length !== 0 && newTaskName.trim()) {
+      addNewTask(newTaskName);
+      this.setState(() => {
+        return {
+          newTaskName: '',
+        };
+      });
+    }
   };
 
   render() {
