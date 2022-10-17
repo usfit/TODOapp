@@ -21,9 +21,9 @@ const createNewTask = (newTaskName) => {
 class TodoApp extends Component {
   state = {
     todoData: [
-      { label: 'Completed task', dateCreated: new Date(), completed: false, editing: false, id: 1 },
-      { label: 'Editing task', dateCreated: new Date(), completed: true, editing: false, id: 2 },
-      { label: 'Active task', dateCreated: new Date(), completed: false, editing: false, id: 3 },
+      { label: 'Completed task', dateCreated: new Date(), completed: false, editing: false, id: uuidv4() },
+      { label: 'Editing task', dateCreated: new Date(), completed: true, editing: false, id: uuidv4() },
+      { label: 'Active task', dateCreated: new Date(), completed: false, editing: false, id: uuidv4() },
     ],
     filters: [
       { label: 'All', active: true, id: 1 },
@@ -42,9 +42,37 @@ class TodoApp extends Component {
     });
   };
 
-  // editTask = (id) => {
-  //   console.log(id);
-  // };
+  editTask = (id) => {
+    this.setState((state) => {
+      const newData = state.todoData.map((item) => {
+        switch (item.id) {
+          case id:
+            item.editing = true;
+            break;
+          default:
+            item.editing = false;
+        }
+        return item;
+      });
+      return {
+        todoData: newData,
+      };
+    });
+  };
+
+  editTaskSubmit = (e, newLabel, id) => {
+    e.preventDefault();
+    this.setState((state) => {
+      const idx = state.todoData.findIndex((item) => item.id === id);
+      const changeItem = state.todoData[idx];
+      changeItem.label = newLabel;
+      changeItem.editing = false;
+      const newData = [...state.todoData.slice(0, idx), changeItem, ...state.todoData.slice(idx + 1)];
+      return {
+        todoData: newData,
+      };
+    });
+  };
 
   changeCompleted = (id) => {
     this.setState((state) => {
@@ -99,6 +127,7 @@ class TodoApp extends Component {
             todoData={todoData}
             deleteTask={(id) => this.deleteTask(id)}
             editTask={(id) => this.editTask(id)}
+            editTaskSubmit={(e, newLabel, id) => this.editTaskSubmit(e, newLabel, id)}
             changeCompleted={(id) => this.changeCompleted(id)}
             filterName={filterName}
           />
