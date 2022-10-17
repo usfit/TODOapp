@@ -17,7 +17,9 @@ function Task({ label, deleteTask, changeCompleted, completed, editing, dateCrea
       <div className="view">
         <input className="toggle" type="checkbox" onChange={changeCompleted} checked={completed} />
         <label htmlFor="desctiption">
-          <span className="description">{label}</span>
+          <span role="presentation" className="description" onClick={changeCompleted} onKeyDown={changeCompleted}>
+            {label}
+          </span>
           <span className="created">
             created {formatDistanceToNowStrict(dateCreated, { includeSeconds: true })} ago
           </span>

@@ -1,7 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './tasks-filter.css';
+import './TasksFilter.css';
+
+function changeFilterNew(e, filters, changeFilter) {
+  const idx = Number(e.target.name);
+  let newFilterName;
+  const newFilters = filters.map((item) => {
+    switch (item.id) {
+      case idx:
+        item.active = true;
+        newFilterName = item.label;
+        break;
+      default:
+        item.active = false;
+    }
+    return item;
+  });
+  changeFilter(newFilters, newFilterName);
+}
 
 function TasksFilter(props) {
   const { changeFilter, filters, className } = props;
@@ -14,7 +31,12 @@ function TasksFilter(props) {
     }
     return (
       <li key={id}>
-        <button type="button" className={classNameItem} name={id} onClick={(e) => changeFilter(e)}>
+        <button
+          type="button"
+          className={classNameItem}
+          name={id}
+          onClick={(e) => changeFilterNew(e, filters, changeFilter)}
+        >
           {item.label}
         </button>
       </li>

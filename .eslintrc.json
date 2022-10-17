@@ -60,7 +60,7 @@
       }
     ],
 
-    "indent": ["error", 2],
+    "indent": [2, 2, { "SwitchCase": 1 }],
     "prettier/prettier": "error",
     "quotes": ["error", "single"],
     "semi": ["error", "always"],

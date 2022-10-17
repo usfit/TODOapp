@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import Task from '../task';
+import Task from '../Task';
 
-import './task-list.css';
+import './TaskList.css';
 
 function TaskList({ className, todoData, filterName, deleteTask, changeCompleted }) {
   // eslint-disable-next-line no-shadow
