@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 
-function Task({ label, deleteTask, changeCompleted, completed, editing, dateCreated }) {
+function Task({ label, deleteTask, changeCompleted, completed, editing, dateCreated, editTask }) {
   let className = '';
 
   if (completed) {
@@ -24,7 +24,7 @@ function Task({ label, deleteTask, changeCompleted, completed, editing, dateCrea
             created {formatDistanceToNowStrict(dateCreated, { includeSeconds: true })} ago
           </span>
         </label>
-        <button type="button" aria-label="Edit task" className="icon icon-edit" />
+        <button type="button" aria-label="Edit task" className="icon icon-edit" onClick={editTask} />
         <button type="button" aria-label="Delete task" className="icon icon-destroy" onClick={deleteTask} />
       </div>
       <input type="text" className="edit" defaultValue="Editing task" />

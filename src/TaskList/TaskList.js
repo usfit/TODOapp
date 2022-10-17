@@ -5,13 +5,19 @@ import Task from '../Task';
 
 import './TaskList.css';
 
-function TaskList({ className, todoData, filterName, deleteTask, changeCompleted }) {
+function TaskList({ className, todoData, filterName, deleteTask, changeCompleted, editTask }) {
   // eslint-disable-next-line no-shadow
   const addElement = (todoData) => {
     return todoData.map((item) => {
       const { id, ...newItem } = { ...item };
       return (
-        <Task key={id} {...newItem} changeCompleted={() => changeCompleted(id)} deleteTask={() => deleteTask(id)} />
+        <Task
+          key={id}
+          {...newItem}
+          changeCompleted={() => changeCompleted(id)}
+          deleteTask={() => deleteTask(id)}
+          editTask={() => editTask(id)}
+        />
       );
     });
   };

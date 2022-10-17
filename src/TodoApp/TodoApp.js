@@ -42,6 +42,10 @@ class TodoApp extends Component {
     });
   };
 
+  // editTask = (id) => {
+  //   console.log(id);
+  // };
+
   changeCompleted = (id) => {
     this.setState((state) => {
       const idx = state.todoData.findIndex((item) => item.id === id);
@@ -94,6 +98,7 @@ class TodoApp extends Component {
             className="todo-list"
             todoData={todoData}
             deleteTask={(id) => this.deleteTask(id)}
+            editTask={(id) => this.editTask(id)}
             changeCompleted={(id) => this.changeCompleted(id)}
             filterName={filterName}
           />
