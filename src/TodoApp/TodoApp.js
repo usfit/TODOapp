@@ -17,7 +17,6 @@ const createNewTask = (newTaskName) => {
   };
   return newTask;
 };
-
 class TodoApp extends Component {
   state = {
     todoData: [
@@ -33,6 +32,23 @@ class TodoApp extends Component {
     filterName: 'All',
   };
 
+  handleClick = (e) => {
+    const editButton = document.querySelectorAll('.icon-edit');
+    const editInput = document.querySelectorAll('.edit');
+    if (![...editButton].includes(e.target) && ![...editInput].includes(e.target)) {
+      document.removeEventListener('click', this.handleClick);
+      this.setState((state) => {
+        const newTodoData = state.todoData.map((item) => {
+          item.editing = false;
+          return item;
+        });
+        return {
+          todoData: newTodoData,
+        };
+      });
+    }
+  };
+
   deleteTask = (id) => {
     this.setState((state) => {
       const newData = state.todoData.filter((item) => item.id !== id);
@@ -42,7 +58,24 @@ class TodoApp extends Component {
     });
   };
 
+  editTaskSubmit = (e, newLabel, id) => {
+    e.preventDefault();
+    document.removeEventListener('click', this.handleClick);
+    this.setState((state) => {
+      const idx = state.todoData.findIndex((item) => item.id === id);
+      const changeItem = state.todoData[idx];
+      changeItem.label = newLabel;
+      changeItem.editing = false;
+      const newData = [...state.todoData.slice(0, idx), changeItem, ...state.todoData.slice(idx + 1)];
+      return {
+        todoData: newData,
+        edit: false,
+      };
+    });
+  };
+
   editTask = (id) => {
+    document.addEventListener('click', this.handleClick);
     this.setState((state) => {
       const newData = state.todoData.map((item) => {
         switch (item.id) {
@@ -56,20 +89,7 @@ class TodoApp extends Component {
       });
       return {
         todoData: newData,
-      };
-    });
-  };
-
-  editTaskSubmit = (e, newLabel, id) => {
-    e.preventDefault();
-    this.setState((state) => {
-      const idx = state.todoData.findIndex((item) => item.id === id);
-      const changeItem = state.todoData[idx];
-      changeItem.label = newLabel;
-      changeItem.editing = false;
-      const newData = [...state.todoData.slice(0, idx), changeItem, ...state.todoData.slice(idx + 1)];
-      return {
-        todoData: newData,
+        edit: true,
       };
     });
   };
@@ -126,7 +146,7 @@ class TodoApp extends Component {
             className="todo-list"
             todoData={todoData}
             deleteTask={(id) => this.deleteTask(id)}
-            editTask={(id) => this.editTask(id)}
+            editTask={(e, id) => this.editTask(e, id)}
             editTaskSubmit={(e, newLabel, id) => this.editTaskSubmit(e, newLabel, id)}
             changeCompleted={(id) => this.changeCompleted(id)}
             filterName={filterName}
