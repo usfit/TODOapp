@@ -13,7 +13,6 @@ class TodoApp extends Component {
       label: newTaskName,
       dateCreated: new Date(),
       completed: false,
-      editing: false,
       id: uuidv4(),
     };
     return newTask;
@@ -25,21 +24,18 @@ class TodoApp extends Component {
         label: 'Completed task',
         dateCreated: new Date('2020-05-12T23:50:21.817Z'),
         completed: false,
-        editing: false,
         id: uuidv4(),
       },
       {
         label: 'Editing task',
         dateCreated: new Date('2022-10-19T22:18:21.817Z'),
         completed: true,
-        editing: false,
         id: uuidv4(),
       },
       {
         label: 'Active task',
         dateCreated: new Date('2022-09-30T22:18:21.817Z'),
         completed: false,
-        editing: false,
         id: uuidv4(),
       },
     ],
@@ -72,8 +68,7 @@ class TodoApp extends Component {
     });
   };
 
-  editTaskSubmit = (e, newLabel, id) => {
-    e.preventDefault();
+  editTaskSubmit = (newLabel, id) => {
     document.removeEventListener('click', this.handleClick);
     this.setState((state) => {
       const idx = state.todoData.findIndex((item) => item.id === id);
@@ -160,7 +155,7 @@ class TodoApp extends Component {
             todoData={todoData}
             deleteTask={(id) => this.deleteTask(id)}
             editTask={(e, id) => this.editTask(e, id)}
-            editTaskSubmit={(e, newLabel, id) => this.editTaskSubmit(e, newLabel, id)}
+            editTaskSubmit={(newLabel, id) => this.editTaskSubmit(newLabel, id)}
             changeCompleted={(id) => this.changeCompleted(id)}
             filterName={filterName}
           />

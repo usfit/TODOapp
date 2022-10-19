@@ -2,6 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 
+function editTaskSubmits(e, newLabel, editTaskSubmit) {
+  e.preventDefault();
+  editTaskSubmit(newLabel);
+}
+
 function Task({ label, deleteTask, changeCompleted, completed, editing, dateCreated, editTask, editTaskSubmit }) {
   let className = '';
   let newLabel = label;
@@ -35,7 +40,7 @@ function Task({ label, deleteTask, changeCompleted, completed, editing, dateCrea
         />
         <button type="button" aria-label="Delete task" className="icon icon-destroy" onClick={deleteTask} />
       </div>
-      <form onSubmit={(e) => editTaskSubmit(e, newLabel)}>
+      <form onSubmit={(e) => editTaskSubmits(e, newLabel, editTaskSubmit)}>
         <input
           type="text"
           className="edit"

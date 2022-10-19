@@ -15,9 +15,9 @@ function TaskList({ className, todoData, filterName, deleteTask, changeCompleted
           key={id}
           {...newItem}
           changeCompleted={() => changeCompleted(id)}
-          deleteTask={(e) => deleteTask(e, id)}
+          deleteTask={() => deleteTask(id)}
           editTask={() => editTask(id)}
-          editTaskSubmit={(e, newLabel) => editTaskSubmit(e, newLabel, id)}
+          editTaskSubmit={(newLabel) => editTaskSubmit(newLabel, id)}
         />
       );
     });
