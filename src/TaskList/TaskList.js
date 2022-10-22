@@ -49,18 +49,20 @@ class TaskList extends Component {
   editTaskSubmits(e, newLabel, todoData, id, editTaskSubmit) {
     e.preventDefault();
     document.removeEventListener('click', this.handleClick);
-    const idx = todoData.findIndex((item) => item.id === id);
-    const changeItem = todoData[idx];
-    changeItem.label = newLabel;
-    changeItem.editing = false;
-    const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
     this.setState(() => {
       return {
         editing: null,
         editingLabel: null,
       };
     });
-    editTaskSubmit(newData);
+    if (newLabel) {
+      const idx = todoData.findIndex((item) => item.id === id);
+      const changeItem = todoData[idx];
+      changeItem.label = newLabel;
+      changeItem.editing = false;
+      const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
+      editTaskSubmit(newData);
+    }
   }
 
   render() {
