@@ -42,19 +42,6 @@ class TodoApp extends Component {
     filterName: 'All',
   };
 
-  handleClick = () => {
-    document.removeEventListener('click', this.handleClick);
-    this.setState((state) => {
-      const newTodoData = state.todoData.map((item) => {
-        item.editing = false;
-        return item;
-      });
-      return {
-        todoData: newTodoData,
-      };
-    });
-  };
-
   deleteTask = (id) => {
     this.setState(({ todoData }) => {
       const newData = todoData.filter((item) => item.id !== id);
@@ -64,34 +51,8 @@ class TodoApp extends Component {
     });
   };
 
-  editTaskSubmit = (e, newLabel, id) => {
-    e.preventDefault();
-    document.removeEventListener('click', this.handleClick);
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((item) => item.id === id);
-      const changeItem = todoData[idx];
-      changeItem.label = newLabel;
-      changeItem.editing = false;
-      const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
-      return {
-        todoData: newData,
-      };
-    });
-  };
-
-  editTask = (id) => {
-    document.addEventListener('click', this.handleClick);
-    this.setState(({ todoData }) => {
-      const newData = todoData.map((item) => {
-        switch (item.id) {
-          case id:
-            item.editing = true;
-            break;
-          default:
-            item.editing = false;
-        }
-        return item;
-      });
+  editTaskSubmit = (newData) => {
+    this.setState(() => {
       return {
         todoData: newData,
       };
@@ -148,7 +109,7 @@ class TodoApp extends Component {
             todoData={todoData}
             deleteTask={(id) => this.deleteTask(id)}
             editTask={(e, id) => this.editTask(e, id)}
-            editTaskSubmit={(e, newLabel, id) => this.editTaskSubmit(e, newLabel, id)}
+            editTaskSubmit={(newData) => this.editTaskSubmit(newData)}
             changeCompleted={(id) => this.changeCompleted(id)}
             filterName={filterName}
           />
