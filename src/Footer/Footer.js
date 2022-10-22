@@ -7,14 +7,12 @@ import './Footer.css';
 
 class Footer extends Component {
   static defaultProps = {
-    className: '',
     activeCount: 0,
     changeFilter: () => {},
     clearCompleted: () => {},
   };
 
   static propTypes = {
-    className: PropTypes.string,
     activeCount: PropTypes.number,
     changeFilter: PropTypes.func,
     clearCompleted: PropTypes.func,
@@ -22,9 +20,9 @@ class Footer extends Component {
 
   state = {
     filters: [
-      { label: 'All', active: true, id: 1 },
-      { label: 'Active', active: false, id: 2 },
-      { label: 'Completed', active: false, id: 3 },
+      { label: 'All', id: 1 },
+      { label: 'Active', id: 2 },
+      { label: 'Completed', id: 3 },
     ],
   };
 
@@ -39,13 +37,12 @@ class Footer extends Component {
   };
 
   render() {
-    const { className, activeCount, clearCompleted } = this.props;
+    const { activeCount, clearCompleted } = this.props;
     const { filters } = this.state;
     return (
-      <footer className={className}>
+      <footer className="footer">
         <span className="todo-count"> {activeCount} items left</span>
         <TasksFilter
-          className="filters"
           filters={filters}
           changeFilter={(newFilters, newFilterName) => this.changeFilters(newFilters, newFilterName)}
         />

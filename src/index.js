@@ -6,7 +6,7 @@ import TodoApp from './TodoApp/TodoApp';
 import './style.css';
 
 function App() {
-  return <TodoApp className="todoapp" />;
+  return <TodoApp />;
 }
 
 const root = createRoot(document.getElementById('root'));

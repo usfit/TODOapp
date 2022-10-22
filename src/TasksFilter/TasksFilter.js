@@ -21,7 +21,7 @@ function changeFilterNew(e, filters, changeFilter) {
 }
 
 function TasksFilter(props) {
-  const { changeFilter, filters, className } = props;
+  const { changeFilter, filters } = props;
 
   const elements = filters.map((item) => {
     const { id, ...filter } = { ...item };
@@ -42,17 +42,15 @@ function TasksFilter(props) {
       </li>
     );
   });
-  return <ul className={className}>{elements}</ul>;
+  return <ul className="filters">{elements}</ul>;
 }
 
 TasksFilter.defaultProps = {
-  className: '',
   filters: [],
   changeFilter: () => {},
 };
 
 TasksFilter.propTypes = {
-  className: PropTypes.string,
   filters: PropTypes.array,
   changeFilter: PropTypes.func,
 };

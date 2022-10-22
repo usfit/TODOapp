@@ -2,24 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 
-function editTaskSubmits(e, newLabel, editTaskSubmit) {
-  e.preventDefault();
-  editTaskSubmit(newLabel);
-}
-
 function Task({ label, deleteTask, changeCompleted, completed, editing, dateCreated, editTask, editTaskSubmit }) {
-  let className = '';
   let newLabel = label;
 
-  if (completed) {
-    className += 'completed';
-  }
-  if (editing) {
-    className += ' editing';
-  }
-
   return (
-    <li className={className}>
+    <li className={[editing ? 'editing' : [completed ? 'completed' : '']]}>
       <div className="view">
         <input className="toggle" type="checkbox" onChange={changeCompleted} checked={completed} />
         <label htmlFor="desctiption">
@@ -35,12 +22,13 @@ function Task({ label, deleteTask, changeCompleted, completed, editing, dateCrea
           aria-label="Edit task"
           className="icon icon-edit"
           onClick={(e) => {
+            e.stopPropagation();
             editTask(e);
           }}
         />
         <button type="button" aria-label="Delete task" className="icon icon-destroy" onClick={deleteTask} />
       </div>
-      <form onSubmit={(e) => editTaskSubmits(e, newLabel, editTaskSubmit)}>
+      <form onSubmit={(e) => editTaskSubmit(e, newLabel)}>
         <input
           type="text"
           className="edit"
@@ -48,6 +36,7 @@ function Task({ label, deleteTask, changeCompleted, completed, editing, dateCrea
           onChange={(e) => {
             newLabel = e.target.value;
           }}
+          onClick={(e) => e.stopPropagation()}
         />
       </form>
     </li>

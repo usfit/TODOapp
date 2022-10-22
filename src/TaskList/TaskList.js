@@ -5,7 +5,7 @@ import Task from '../Task';
 
 import './TaskList.css';
 
-function TaskList({ className, todoData, filterName, deleteTask, changeCompleted, editTask, editTaskSubmit }) {
+function TaskList({ todoData, filterName, deleteTask, changeCompleted, editTask, editTaskSubmit }) {
   // eslint-disable-next-line no-shadow
   const addElement = (todoData) => {
     return todoData.map((item) => {
@@ -17,7 +17,7 @@ function TaskList({ className, todoData, filterName, deleteTask, changeCompleted
           changeCompleted={() => changeCompleted(id)}
           deleteTask={() => deleteTask(id)}
           editTask={() => editTask(id)}
-          editTaskSubmit={(newLabel) => editTaskSubmit(newLabel, id)}
+          editTaskSubmit={(e, newLabel) => editTaskSubmit(e, newLabel, id)}
         />
       );
     });
@@ -35,11 +35,10 @@ function TaskList({ className, todoData, filterName, deleteTask, changeCompleted
     elements = addElement(complitedElements);
   }
 
-  return <ul className={className}>{elements}</ul>;
+  return <ul className="todo-list">{elements}</ul>;
 }
 
 TaskList.defaultProps = {
-  className: '',
   todoData: [{ label: 'New task', dateCreated: new Date(), completed: false, editing: false, id: 0 }],
   filterName: 'All',
   deleteTask: () => {},
@@ -49,7 +48,6 @@ TaskList.defaultProps = {
 };
 
 TaskList.propTypes = {
-  className: PropTypes.string,
   todoData: PropTypes.arrayOf(PropTypes.object),
   filterName: PropTypes.string,
   deleteTask: PropTypes.func,
