@@ -24,7 +24,7 @@ class NewTaskForm extends Component {
     });
   };
 
-  onSubmit = (e) => {
+  submitNewTask = (e) => {
     e.preventDefault();
     const { addNewTask } = this.props;
     const { newTaskName } = this.state;
@@ -45,7 +45,7 @@ class NewTaskForm extends Component {
     return (
       <header className={className}>
         <h1>todos</h1>
-        <form onSubmit={(e) => this.onSubmit(e, newTaskName)}>
+        <form onSubmit={this.submitNewTask}>
           <input
             className="new-todo"
             placeholder="What needs to be done?"

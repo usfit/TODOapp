@@ -37,14 +37,42 @@ class TaskList extends Component {
     });
   };
 
-  editTask(id) {
-    document.addEventListener('click', this.handleClick);
-    this.setState(() => {
-      return {
-        editing: id,
-      };
+  addElement = (todoData) => {
+    const { deleteTask, changeCompleted, editTaskSubmit } = this.props;
+    const { editing, editingLabel } = this.state;
+    return todoData.map((item) => {
+      const { id, ...newItem } = { ...item };
+      return (
+        <Task
+          key={id}
+          {...newItem}
+          id={id}
+          editing={id === editing}
+          editingLabel={editingLabel}
+          changeCompleted={() => changeCompleted(id)}
+          deleteTask={() => deleteTask(id)}
+          editTask={() => this.editTask(id)}
+          editTaskSubmit={(e, newLabel) => this.editTaskSubmits(e, newLabel, todoData, id, editTaskSubmit)}
+        />
+      );
     });
-  }
+  };
+
+  filterElements = () => {
+    const { todoData, filterName } = this.props;
+    const activeElements = todoData.filter((item) => !item.completed);
+    const complitedElements = todoData.filter((item) => item.completed);
+    let elements;
+
+    if (filterName === 'All') {
+      elements = this.addElement(todoData);
+    } else if (filterName === 'Active') {
+      elements = this.addElement(activeElements);
+    } else {
+      elements = this.addElement(complitedElements);
+    }
+    return elements;
+  };
 
   editTaskSubmits(e, newLabel, todoData, id, editTaskSubmit) {
     e.preventDefault();
@@ -65,41 +93,17 @@ class TaskList extends Component {
     }
   }
 
+  editTask(id) {
+    document.addEventListener('click', this.handleClick);
+    this.setState(() => {
+      return {
+        editing: id,
+      };
+    });
+  }
+
   render() {
-    const { todoData, filterName, deleteTask, changeCompleted, editTaskSubmit } = this.props;
-    const { editing, editingLabel } = this.state;
-    // eslint-disable-next-line no-shadow
-    const addElement = (todoData) => {
-      return todoData.map((item) => {
-        const { id, ...newItem } = { ...item };
-        return (
-          <Task
-            key={id}
-            {...newItem}
-            id={id}
-            editing={id === editing}
-            editingLabel={editingLabel}
-            changeCompleted={() => changeCompleted(id)}
-            deleteTask={() => deleteTask(id)}
-            editTask={() => this.editTask(id)}
-            editTaskSubmit={(e, newLabel) => this.editTaskSubmits(e, newLabel, todoData, id, editTaskSubmit)}
-          />
-        );
-      });
-    };
-
-    const activeElements = todoData.filter((item) => !item.completed);
-    const complitedElements = todoData.filter((item) => item.completed);
-    let elements;
-
-    if (filterName === 'All') {
-      elements = addElement(todoData);
-    } else if (filterName === 'Active') {
-      elements = addElement(activeElements);
-    } else {
-      elements = addElement(complitedElements);
-    }
-
+    const elements = this.filterElements();
     return <ul className="todo-list">{elements}</ul>;
   }
 }
