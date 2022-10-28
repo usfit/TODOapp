@@ -20,9 +20,9 @@ class Footer extends Component {
 
   state = {
     filters: [
-      { label: 'All', id: 1 },
-      { label: 'Active', id: 2 },
-      { label: 'Completed', id: 3 },
+      { label: 'All', id: 1, active: true },
+      { label: 'Active', id: 2, active: false },
+      { label: 'Completed', id: 3, active: false },
     ],
   };
 

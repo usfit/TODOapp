@@ -117,7 +117,6 @@ class TodoApp extends Component {
             changeFilter={(newFilterName) => this.changeFilter(newFilterName)}
             clearCompleted={() => this.clearCompleted()}
             activeCount={activeCount}
-            filterName={filterName}
           />
         </section>
       </section>
