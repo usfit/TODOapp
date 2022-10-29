@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import TasksFilter from '../TasksFilter';
 
-import './Footer.css';
-
 class Footer extends Component {
   static defaultProps = {
     activeCount: 0,

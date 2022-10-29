@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './TasksFilter.css';
-
 function changeFilterNew(e, filters, changeFilter) {
   const idx = Number(e.target.name);
   let newFilterName;

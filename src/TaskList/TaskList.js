@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import Task from '../Task';
 
-import './TaskList.css';
-
 class TaskList extends Component {
   static defaultProps = {
     todoData: [{ label: 'New task', dateCreated: new Date(), completed: false, editing: false, id: 0 }],
@@ -38,7 +36,7 @@ class TaskList extends Component {
   };
 
   addElement = (todoData) => {
-    const { deleteTask, changeCompleted, editTaskSubmit } = this.props;
+    const { deleteTask, changeCompleted, editTaskSubmit, updateTime } = this.props;
     const { editing, editingLabel } = this.state;
     return todoData.map((item) => {
       const { id, ...newItem } = { ...item };
@@ -53,6 +51,7 @@ class TaskList extends Component {
           deleteTask={() => deleteTask(id)}
           editTask={() => this.editTask(id)}
           editTaskSubmit={(e, newLabel) => this.editTaskSubmits(e, newLabel, todoData, id, editTaskSubmit)}
+          updateTime={(newSeconds) => updateTime(newSeconds, id)}
         />
       );
     });

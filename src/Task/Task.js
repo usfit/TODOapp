@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { formatDistanceToNowStrict } from 'date-fns';
 
+import TaskTimer from '../TaskTimer';
+
 class Task extends Component {
   static defaultProps = {
     label: 'New task',
@@ -30,7 +32,18 @@ class Task extends Component {
   };
 
   render() {
-    const { deleteTask, changeCompleted, completed, editing, dateCreated, editTask, editTaskSubmit } = this.props;
+    const {
+      deleteTask,
+      changeCompleted,
+      completed,
+      editing,
+      dateCreated,
+      editTask,
+      editTaskSubmit,
+      minutes,
+      seconds,
+      updateTime,
+    } = this.props;
     let { label } = this.props;
     const { newLabel } = this.state;
     return (
@@ -38,10 +51,11 @@ class Task extends Component {
         <div className="view">
           <input className="toggle" type="checkbox" onChange={changeCompleted} checked={completed} />
           <label htmlFor="desctiption">
-            <span role="presentation" className="description" onClick={changeCompleted} onKeyDown={changeCompleted}>
+            <span className="title" role="presentation" onClick={changeCompleted} onKeyDown={changeCompleted}>
               {label}
             </span>
-            <span className="created">
+            <TaskTimer minutes={minutes} seconds={seconds} updateTime={updateTime} />
+            <span className="description">
               created {formatDistanceToNowStrict(dateCreated, { includeSeconds: true })} ago
             </span>
           </label>
