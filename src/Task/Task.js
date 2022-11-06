@@ -31,21 +31,17 @@ class Task extends Component {
     newLabel: null,
   };
 
+  deleteTaskItem = () => {
+    const { deleteTask } = this.props;
+    deleteTask();
+  };
+
   render() {
-    const {
-      deleteTask,
-      changeCompleted,
-      completed,
-      editing,
-      dateCreated,
-      editTask,
-      editTaskSubmit,
-      minutes,
-      seconds,
-      updateTime,
-    } = this.props;
+    const { changeCompleted, completed, editing, dateCreated, editTask, editTaskSubmit, minutes, seconds, updateTime } =
+      this.props;
     let { label } = this.props;
     const { newLabel } = this.state;
+    const taskTimer = <TaskTimer minutes={minutes} seconds={seconds} updateTime={updateTime} />;
     return (
       <li className={[editing ? 'editing' : [completed ? 'completed' : '']]}>
         <div className="view">
@@ -54,7 +50,7 @@ class Task extends Component {
             <span className="title" role="presentation" onClick={changeCompleted} onKeyDown={changeCompleted}>
               {label}
             </span>
-            <TaskTimer minutes={minutes} seconds={seconds} updateTime={updateTime} />
+            {!completed ? taskTimer : null}
             <span className="description">
               created {formatDistanceToNowStrict(dateCreated, { includeSeconds: true })} ago
             </span>
@@ -68,7 +64,12 @@ class Task extends Component {
               editTask();
             }}
           />
-          <button type="button" aria-label="Delete task" className="icon icon-destroy" onClick={deleteTask} />
+          <button
+            type="button"
+            aria-label="Delete task"
+            className="icon icon-destroy"
+            onClick={() => this.deleteTaskItem()}
+          />
         </div>
         <form onSubmit={(e) => editTaskSubmit(e, newLabel)}>
           <input

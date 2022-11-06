@@ -33,16 +33,16 @@ class TodoApp extends Component {
         dateCreated: new Date('2022-10-19T22:18:21.817Z'),
         completed: true,
         id: uuidv4(),
-        minutes: 15,
-        seconds: 30,
+        minutes: 10,
+        seconds: 15,
       },
       {
         label: 'Active task',
         dateCreated: new Date('2022-09-30T22:18:21.817Z'),
         completed: false,
         id: uuidv4(),
-        minutes: 15,
-        seconds: 30,
+        minutes: 0,
+        seconds: 10,
       },
     ],
     filterName: 'All',
@@ -110,9 +110,12 @@ class TodoApp extends Component {
 
       const idx = todoData.findIndex((item) => item.id === id);
       const changeItem = todoData[idx];
+      const changeCompleted = !!(minutes === 0 && seconds === 0);
 
       changeItem.minutes = minutes;
       changeItem.seconds = seconds;
+      changeItem.completed = changeCompleted;
+
       const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
       return {
         todoData: newData,

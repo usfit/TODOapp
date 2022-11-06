@@ -10,6 +10,10 @@ class TaskTimer extends Component {
     this.getSeconds();
   }
 
+  componentWillUnmount() {
+    this.deleteInterval();
+  }
+
   getSeconds() {
     const { minutes } = this.props;
     let { seconds } = this.props;
