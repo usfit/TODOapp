@@ -1,79 +1,45 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 
-class TaskTimer extends Component {
-  state = {
-    allSeconds: 0,
-    timerId: null,
+function TaskTimer({ minutes, seconds, updateTime }) {
+  const [allSeconds, setAllSeconds] = useState(0);
+  const [start, setStart] = useState(false);
+
+  const getSeconds = () => {
+    const newAllSeconds = +seconds + +minutes * 60;
+    setAllSeconds(newAllSeconds);
   };
 
-  componentDidMount() {
-    this.getSeconds();
-  }
-
-  componentWillUnmount() {
-    this.deleteInterval();
-  }
-
-  getSeconds() {
-    const { minutes } = this.props;
-    let { seconds } = this.props;
-    seconds = +seconds + +minutes * 60;
-    this.setState(() => {
-      return { allSeconds: seconds };
-    });
-  }
-
-  countSeconds = () => {
-    const { updateTime } = this.props;
-    const { allSeconds } = this.state;
-    const newSeconds = allSeconds - 1;
-    if (newSeconds >= 0) {
-      this.setState(() => {
-        return {
-          allSeconds: newSeconds,
-        };
-      });
-      updateTime(newSeconds);
+  const tick = () => {
+    const newAllSeconds = allSeconds - 1;
+    if (start && newAllSeconds >= 0) {
+      setAllSeconds(newAllSeconds);
+      updateTime(newAllSeconds);
     } else {
-      this.deleteInterval();
+      setStart(false);
     }
   };
 
-  interval = () => {
-    const timerId = setInterval(this.countSeconds, 1000);
-    this.setState(() => {
-      return { timerId };
-    });
+  const handleStart = () => {
+    setStart(true);
   };
 
-  deleteInterval = () => {
-    const { timerId } = this.state;
-    clearInterval(timerId);
-    this.setState(() => {
-      return {
-        timerId: null,
-      };
-    });
+  const handleStop = () => {
+    setStart(false);
   };
 
-  handleStart = () => {
-    this.interval();
-  };
+  useEffect(() => {
+    getSeconds();
+    const timerId = setInterval(() => tick(), 1000);
+    return () => clearInterval(timerId);
+  });
 
-  handleStop = () => {
-    this.deleteInterval();
-  };
-
-  render() {
-    const { minutes, seconds } = this.props;
-    return (
-      <span className="description">
-        <button type="button" label="timer play" className="icon icon-play" onClick={this.handleStart} />
-        <button type="button" label="timer pause" className="icon icon-pause" onClick={this.handleStop} />
-        {`${minutes}:${seconds}`}
-      </span>
-    );
-  }
+  return (
+    <span className="description">
+      <button type="button" label="timer play" className="icon icon-play" onClick={handleStart} />
+      <button type="button" label="timer pause" className="icon icon-pause" onClick={handleStop} />
+      {`${minutes}:${seconds}`}
+    </span>
+  );
 }
 
 export default TaskTimer;

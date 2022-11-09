@@ -1,170 +1,90 @@
-// import React, { Component, useState } from 'react';
-// import PropTypes from 'prop-types';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
-// import Task from '../Task';
+import Task from '../Task';
 
-// addElement = (todoData) => {
-//   const { deleteTask, changeCompleted, editTaskSubmit, updateTime } = this.props;
-//   const { editing, editingLabel } = this.state;
-//   return todoData.map((item) => {
-//     const { id, ...newItem } = { ...item };
-//     return (
-//       <Task
-//         key={id}
-//         {...newItem}
-//         id={id}
-//         editing={id === editing}
-//         editingLabel={editingLabel}
-//         changeCompleted={() => changeCompleted(id)}
-//         deleteTask={() => deleteTask(id)}
-//         editTask={() => this.editTask(id)}
-//         editTaskSubmit={(e, newLabel) => this.editTaskSubmits(e, newLabel, todoData, id, editTaskSubmit)}
-//         updateTime={(newSeconds) => updateTime(newSeconds, id)}
-//       />
-//     );
-//   });
-// };
+function TaskList({ todoData, deleteTask, editTaskSubmit, changeCompleted, filterName, updateTime }) {
+  const [editing, setEditing] = useState(null);
+  const [editingLabel, setEditingLabel] = useState(null);
 
-// const filterElements = (todoData, filterName) => {
-//   const activeElements = todoData.filter((item) => !item.completed);
-//   const complitedElements = todoData.filter((item) => item.completed);
-//   let elements;
+  const handleClick = () => {
+    document.removeEventListener('click', () => handleClick(setEditing));
+    setEditing(null);
+  };
 
-//   if (filterName === 'All') {
-//     elements = addElement(todoData);
-//   } else if (filterName === 'Active') {
-//     elements = addElement(activeElements);
-//   } else {
-//     elements = addElement(complitedElements);
-//   }
-//   return elements;
-// };
+  const editTaskSubmits = (e, newLabel, id) => {
+    e.preventDefault();
+    document.removeEventListener('click', () => handleClick(setEditing));
+    if (newLabel) {
+      const idx = todoData.findIndex((item) => item.id === id);
+      const changeItem = todoData[idx];
+      changeItem.label = newLabel;
+      changeItem.editing = false;
+      const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
+      editTaskSubmit(newData);
+    }
+    setEditing(null);
+    setEditingLabel(null);
+  };
 
-// function TaskList(todoData, deleteTask, editTask, editTaskSubmit, changeCompleted, filterName, updateTime) {
-//   const elements = filterElements(todoData, filterName);
-//   return <ul className="todo-list">{elements}</ul>;
-// }
+  const editTask = (id) => {
+    document.addEventListener('click', () => handleClick(setEditing));
+    setEditing(id);
+  };
 
-// TaskList.defaultProps = {
-//   todoData: [{ label: 'New task', dateCreated: new Date(), completed: false, editing: false, id: 0 }],
-//   filterName: 'All',
-//   deleteTask: () => {},
-//   editTask: () => {},
-//   editTaskSubmit: () => {},
-//   changeCompleted: () => {},
-// };
+  const AddElement = (todoDataMap) => {
+    return todoDataMap.map((item) => {
+      const { id, ...newItem } = { ...item };
+      return (
+        <Task
+          key={id}
+          {...newItem}
+          id={id}
+          editing={id === editing}
+          editingLabel={editingLabel}
+          changeCompleted={() => changeCompleted(id)}
+          deleteTask={() => deleteTask(id)}
+          editTask={() => editTask(id)}
+          editTaskSubmit={(e, newLabel) => editTaskSubmits(e, newLabel, id)}
+          updateTime={(newSeconds) => updateTime(newSeconds, id)}
+        />
+      );
+    });
+  };
 
-// TaskList.propTypes = {
-//   todoData: PropTypes.arrayOf(PropTypes.object),
-//   filterName: PropTypes.string,
-//   deleteTask: PropTypes.func,
-//   editTask: PropTypes.func,
-//   editTaskSubmit: PropTypes.func,
-//   changeCompleted: PropTypes.func,
-// };
+  const filterElements = () => {
+    const activeElements = todoData.filter((item) => !item.completed);
+    const complitedElements = todoData.filter((item) => item.completed);
+    let elements;
 
-// class TaskListClass extends Component {
-//   // static defaultProps = {
-//   //   todoData: [{ label: 'New task', dateCreated: new Date(), completed: false, editing: false, id: 0 }],
-//   //   filterName: 'All',
-//   //   deleteTask: () => {},
-//   //   editTask: () => {},
-//   //   editTaskSubmit: () => {},
-//   //   changeCompleted: () => {},
-//   // };
+    if (filterName === 'All') {
+      elements = AddElement(todoData);
+    } else if (filterName === 'Active') {
+      elements = AddElement(activeElements);
+    } else {
+      elements = AddElement(complitedElements);
+    }
+    return elements;
+  };
 
-//   // static propTypes = {
-//   //   todoData: PropTypes.arrayOf(PropTypes.object),
-//   //   filterName: PropTypes.string,
-//   //   deleteTask: PropTypes.func,
-//   //   editTask: PropTypes.func,
-//   //   editTaskSubmit: PropTypes.func,
-//   //   changeCompleted: PropTypes.func,
-//   // };
+  const elements = filterElements();
+  return <ul className="todo-list">{elements}</ul>;
+}
 
-//   state = {
-//     editing: null,
-//   };
+TaskList.defaultProps = {
+  todoData: [{ label: 'New task', dateCreated: new Date(), completed: false, editing: false, id: 0 }],
+  filterName: 'All',
+  deleteTask: () => {},
+  editTaskSubmit: () => {},
+  changeCompleted: () => {},
+};
 
-//   handleClick = () => {
-//     document.removeEventListener('click', this.handleClick);
-//     this.setState(() => {
-//       return {
-//         editing: null,
-//       };
-//     });
-//   };
+TaskList.propTypes = {
+  todoData: PropTypes.arrayOf(PropTypes.object),
+  filterName: PropTypes.string,
+  deleteTask: PropTypes.func,
+  editTaskSubmit: PropTypes.func,
+  changeCompleted: PropTypes.func,
+};
 
-//   // addElement = (todoData) => {
-//   //   const { deleteTask, changeCompleted, editTaskSubmit, updateTime } = this.props;
-//   //   const { editing, editingLabel } = this.state;
-//   //   return todoData.map((item) => {
-//   //     const { id, ...newItem } = { ...item };
-//   //     return (
-//   //       <Task
-//   //         key={id}
-//   //         {...newItem}
-//   //         id={id}
-//   //         editing={id === editing}
-//   //         editingLabel={editingLabel}
-//   //         changeCompleted={() => changeCompleted(id)}
-//   //         deleteTask={() => deleteTask(id)}
-//   //         editTask={() => this.editTask(id)}
-//   //         editTaskSubmit={(e, newLabel) => this.editTaskSubmits(e, newLabel, todoData, id, editTaskSubmit)}
-//   //         updateTime={(newSeconds) => updateTime(newSeconds, id)}
-//   //       />
-//   //     );
-//   //   });
-//   // };
-
-//   // filterElements = () => {
-//   //   const { todoData, filterName } = this.props;
-//   //   const activeElements = todoData.filter((item) => !item.completed);
-//   //   const complitedElements = todoData.filter((item) => item.completed);
-//   //   let elements;
-
-//   //   if (filterName === 'All') {
-//   //     elements = this.addElement(todoData);
-//   //   } else if (filterName === 'Active') {
-//   //     elements = this.addElement(activeElements);
-//   //   } else {
-//   //     elements = this.addElement(complitedElements);
-//   //   }
-//   //   return elements;
-//   // };
-
-//   editTaskSubmits(e, newLabel, todoData, id, editTaskSubmit) {
-//     e.preventDefault();
-//     document.removeEventListener('click', this.handleClick);
-//     this.setState(() => {
-//       return {
-//         editing: null,
-//         editingLabel: null,
-//       };
-//     });
-//     if (newLabel) {
-//       const idx = todoData.findIndex((item) => item.id === id);
-//       const changeItem = todoData[idx];
-//       changeItem.label = newLabel;
-//       changeItem.editing = false;
-//       const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
-//       editTaskSubmit(newData);
-//     }
-//   }
-
-//   editTask(id) {
-//     document.addEventListener('click', this.handleClick);
-//     this.setState(() => {
-//       return {
-//         editing: id,
-//       };
-//     });
-//   }
-
-//   // render() {
-//   //   const elements = this.filterElements();
-//   //   return <ul className="todo-list">{elements}</ul>;
-//   // }
-// }
-
-// export default TaskList;
+export default TaskList;

@@ -50,11 +50,7 @@ function Task({
           defaultValue={label}
           onChange={(e) => {
             label = e.target.value;
-            setNewLabel(() => {
-              return {
-                newLabel: label,
-              };
-            });
+            setNewLabel(label);
           }}
           onClick={(e) => e.stopPropagation()}
         />

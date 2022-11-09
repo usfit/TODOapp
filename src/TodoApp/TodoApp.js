@@ -5,6 +5,71 @@ import NewTaskForm from '../NewTaskForm';
 import TaskList from '../TaskList';
 import Footer from '../Footer';
 
+// function TodoApp() {
+//   const [todoData, setTodoData] = useState([
+//     {
+//       label: 'Completed task',
+//       dateCreated: new Date('2020-05-12T23:50:21.817Z'),
+//       completed: false,
+//       id: uuidv4(),
+//       minutes: 15,
+//       seconds: 30,
+//     },
+//     {
+//       label: 'Editing task',
+//       dateCreated: new Date('2022-10-19T22:18:21.817Z'),
+//       completed: true,
+//       id: uuidv4(),
+//       minutes: 10,
+//       seconds: 15,
+//     },
+//     {
+//       label: 'Active task',
+//       dateCreated: new Date('2022-09-30T22:18:21.817Z'),
+//       completed: false,
+//       id: uuidv4(),
+//       minutes: 0,
+//       seconds: 10,
+//     },
+//   ]);
+
+//   const addNewTask = (newTaskName, newMin, newSec) => {
+//     setTodoData();
+//     this.setState(({ todoData }) => {
+//       const oldData = todoData;
+//       const newTask = TodoApp.createNewTask(newTaskName, newMin, newSec);
+//       return {
+//         todoData: [...oldData, newTask],
+//       };
+//     });
+//   };
+
+//   const [filterName, setFilterName] = useState('All');
+//   const activeCount = todoData.filter((item) => !item.completed).length;
+
+//   return (
+//     <section className="todoapp">
+//       <NewTaskForm addNewTask={addNewTask} />
+//       <section className="Main">
+//         <TaskList
+//           todoData={todoData}
+//           deleteTask={(id) => this.deleteTask(id)}
+//           editTaskSubmit={(newData) => this.editTaskSubmit(newData)}
+//           changeCompleted={(id) => this.changeCompleted(id)}
+//           filterName={filterName}
+//           updateTime={this.updateTime}
+//         />
+//         <Footer
+//           className="footer"
+//           changeFilter={(newFilterName) => this.changeFilter(newFilterName)}
+//           clearCompleted={() => this.clearCompleted()}
+//           activeCount={activeCount}
+//         />
+//       </section>
+//     </section>
+//   );
+// }
+
 class TodoApp extends Component {
   static createNewTask = (newTaskName, newMin, newSec) => {
     const newTask = {
@@ -126,7 +191,6 @@ class TodoApp extends Component {
   render() {
     const { filterName, todoData } = this.state;
     const activeCount = todoData.filter((item) => !item.completed).length;
-
     return (
       <section className="todoapp">
         <NewTaskForm addNewTask={this.addNewTask} />
@@ -134,7 +198,6 @@ class TodoApp extends Component {
           <TaskList
             todoData={todoData}
             deleteTask={(id) => this.deleteTask(id)}
-            editTask={(e, id) => this.editTask(e, id)}
             editTaskSubmit={(newData) => this.editTaskSubmit(newData)}
             changeCompleted={(id) => this.changeCompleted(id)}
             filterName={filterName}
