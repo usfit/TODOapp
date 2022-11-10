@@ -1,77 +1,42 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import NewTaskForm from '../NewTaskForm';
 import TaskList from '../TaskList';
 import Footer from '../Footer';
 
-// function TodoApp() {
-//   const [todoData, setTodoData] = useState([
-//     {
-//       label: 'Completed task',
-//       dateCreated: new Date('2020-05-12T23:50:21.817Z'),
-//       completed: false,
-//       id: uuidv4(),
-//       minutes: 15,
-//       seconds: 30,
-//     },
-//     {
-//       label: 'Editing task',
-//       dateCreated: new Date('2022-10-19T22:18:21.817Z'),
-//       completed: true,
-//       id: uuidv4(),
-//       minutes: 10,
-//       seconds: 15,
-//     },
-//     {
-//       label: 'Active task',
-//       dateCreated: new Date('2022-09-30T22:18:21.817Z'),
-//       completed: false,
-//       id: uuidv4(),
-//       minutes: 0,
-//       seconds: 10,
-//     },
-//   ]);
+function TodoApp() {
+  const [todoData, setTodoData] = useState([
+    {
+      label: 'Completed task',
+      dateCreated: new Date('2020-05-12T23:50:21.817Z'),
+      completed: false,
+      id: uuidv4(),
+      minutes: 15,
+      seconds: 30,
+    },
+    {
+      label: 'Editing task',
+      dateCreated: new Date('2022-10-19T22:18:21.817Z'),
+      completed: true,
+      id: uuidv4(),
+      minutes: 10,
+      seconds: 15,
+    },
+    {
+      label: 'Active task',
+      dateCreated: new Date('2022-09-30T22:18:21.817Z'),
+      completed: false,
+      id: uuidv4(),
+      minutes: 0,
+      seconds: 10,
+    },
+  ]);
 
-//   const addNewTask = (newTaskName, newMin, newSec) => {
-//     setTodoData();
-//     this.setState(({ todoData }) => {
-//       const oldData = todoData;
-//       const newTask = TodoApp.createNewTask(newTaskName, newMin, newSec);
-//       return {
-//         todoData: [...oldData, newTask],
-//       };
-//     });
-//   };
+  const [filterName, setFilterName] = useState('All');
+  const activeCount = todoData.filter((item) => !item.completed).length;
 
-//   const [filterName, setFilterName] = useState('All');
-//   const activeCount = todoData.filter((item) => !item.completed).length;
-
-//   return (
-//     <section className="todoapp">
-//       <NewTaskForm addNewTask={addNewTask} />
-//       <section className="Main">
-//         <TaskList
-//           todoData={todoData}
-//           deleteTask={(id) => this.deleteTask(id)}
-//           editTaskSubmit={(newData) => this.editTaskSubmit(newData)}
-//           changeCompleted={(id) => this.changeCompleted(id)}
-//           filterName={filterName}
-//           updateTime={this.updateTime}
-//         />
-//         <Footer
-//           className="footer"
-//           changeFilter={(newFilterName) => this.changeFilter(newFilterName)}
-//           clearCompleted={() => this.clearCompleted()}
-//           activeCount={activeCount}
-//         />
-//       </section>
-//     </section>
-//   );
-// }
-
-class TodoApp extends Component {
-  static createNewTask = (newTaskName, newMin, newSec) => {
+  const createNewTask = (newTaskName, newMin, newSec) => {
     const newTask = {
       label: newTaskName,
       dateCreated: new Date(),
@@ -83,136 +48,225 @@ class TodoApp extends Component {
     return newTask;
   };
 
-  state = {
-    todoData: [
-      {
-        label: 'Completed task',
-        dateCreated: new Date('2020-05-12T23:50:21.817Z'),
-        completed: false,
-        id: uuidv4(),
-        minutes: 15,
-        seconds: 30,
-      },
-      {
-        label: 'Editing task',
-        dateCreated: new Date('2022-10-19T22:18:21.817Z'),
-        completed: true,
-        id: uuidv4(),
-        minutes: 10,
-        seconds: 15,
-      },
-      {
-        label: 'Active task',
-        dateCreated: new Date('2022-09-30T22:18:21.817Z'),
-        completed: false,
-        id: uuidv4(),
-        minutes: 0,
-        seconds: 10,
-      },
-    ],
-    filterName: 'All',
-  };
-
-  deleteTask = (id) => {
-    this.setState(({ todoData }) => {
-      const newData = todoData.filter((item) => item.id !== id);
-      return {
-        todoData: newData,
-      };
+  const addNewTask = (newTaskName, newMin, newSec) => {
+    const newTask = createNewTask(newTaskName, newMin, newSec);
+    setTodoData(() => {
+      return [...todoData, newTask];
     });
   };
 
-  editTaskSubmit = (newData) => {
-    this.setState(() => {
-      return {
-        todoData: newData,
-      };
+  const deleteTask = (id) => {
+    const newData = todoData.filter((item) => item.id !== id);
+    setTodoData(() => {
+      return newData;
     });
   };
 
-  changeCompleted = (id) => {
-    this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((item) => item.id === id);
-      const changeItem = todoData[idx];
-      changeItem.completed = !changeItem.completed;
-      const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
-      return {
-        todoData: newData,
-      };
+  const editTaskSubmit = (newData) => {
+    setTodoData(() => {
+      return newData;
     });
   };
 
-  addNewTask = (newTaskName, newMin, newSec) => {
-    this.setState(({ todoData }) => {
-      const oldData = todoData;
-      const newTask = TodoApp.createNewTask(newTaskName, newMin, newSec);
-      return {
-        todoData: [...oldData, newTask],
-      };
-    });
+  const changeCompleted = (id) => {
+    const idx = todoData.findIndex((item) => item.id === id);
+    const changeItem = todoData[idx];
+    changeItem.completed = !changeItem.completed;
+    const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
+    setTodoData(newData);
   };
 
-  changeFilter = (newFilterName) => {
-    this.setState(() => {
-      return {
-        filterName: newFilterName,
-      };
-    });
+  const updateTime = (newSeconds, id) => {
+    const minutes = Math.floor(newSeconds / 60);
+    const seconds = newSeconds - minutes * 60;
+
+    const idx = todoData.findIndex((item) => item.id === id);
+    const changeItem = todoData[idx];
+    const changeCompletedTime = !!(minutes === 0 && seconds === 0);
+
+    changeItem.minutes = minutes;
+    changeItem.seconds = seconds;
+    changeItem.completed = changeCompletedTime;
+
+    const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
+    setTodoData(newData);
   };
 
-  clearCompleted = () => {
-    this.setState(({ todoData }) => {
-      return {
-        todoData: todoData.filter((item) => !item.completed),
-      };
-    });
+  const changeFilter = (newFilterName) => {
+    setFilterName(newFilterName);
   };
 
-  updateTime = (newSeconds, id) => {
-    this.setState(({ todoData }) => {
-      const minutes = Math.floor(newSeconds / 60);
-      const seconds = newSeconds - minutes * 60;
-
-      const idx = todoData.findIndex((item) => item.id === id);
-      const changeItem = todoData[idx];
-      const changeCompleted = !!(minutes === 0 && seconds === 0);
-
-      changeItem.minutes = minutes;
-      changeItem.seconds = seconds;
-      changeItem.completed = changeCompleted;
-
-      const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
-      return {
-        todoData: newData,
-      };
-    });
+  const clearCompleted = () => {
+    const newDataClearCompleted = todoData.filter((item) => !item.completed);
+    setTodoData(newDataClearCompleted);
   };
 
-  render() {
-    const { filterName, todoData } = this.state;
-    const activeCount = todoData.filter((item) => !item.completed).length;
-    return (
-      <section className="todoapp">
-        <NewTaskForm addNewTask={this.addNewTask} />
-        <section className="Main">
-          <TaskList
-            todoData={todoData}
-            deleteTask={(id) => this.deleteTask(id)}
-            editTaskSubmit={(newData) => this.editTaskSubmit(newData)}
-            changeCompleted={(id) => this.changeCompleted(id)}
-            filterName={filterName}
-            updateTime={this.updateTime}
-          />
-          <Footer
-            className="footer"
-            changeFilter={(newFilterName) => this.changeFilter(newFilterName)}
-            clearCompleted={() => this.clearCompleted()}
-            activeCount={activeCount}
-          />
-        </section>
+  return (
+    <section className="todoapp">
+      <NewTaskForm addNewTask={addNewTask} />
+      <section className="Main">
+        <TaskList
+          todoData={todoData}
+          deleteTask={(id) => deleteTask(id)}
+          editTaskSubmit={(newData) => editTaskSubmit(newData)}
+          changeCompleted={(id) => changeCompleted(id)}
+          filterName={filterName}
+          updateTime={updateTime}
+        />
+        <Footer
+          className="footer"
+          changeFilter={(newFilterName) => changeFilter(newFilterName)}
+          clearCompleted={() => clearCompleted()}
+          activeCount={activeCount}
+        />
       </section>
-    );
-  }
+    </section>
+  );
 }
+
+// class TodoAppClass extends Component {
+//   // static createNewTask = (newTaskName, newMin, newSec) => {
+//   //   const newTask = {
+//   //     label: newTaskName,
+//   //     dateCreated: new Date(),
+//   //     completed: false,
+//   //     id: uuidv4(),
+//   //     minutes: newMin,
+//   //     seconds: newSec,
+//   //   };
+//   //   return newTask;
+//   // };
+
+//   // state = {
+//   //   todoData: [
+//   //     {
+//   //       label: 'Completed task',
+//   //       dateCreated: new Date('2020-05-12T23:50:21.817Z'),
+//   //       completed: false,
+//   //       id: uuidv4(),
+//   //       minutes: 15,
+//   //       seconds: 30,
+//   //     },
+//   //     {
+//   //       label: 'Editing task',
+//   //       dateCreated: new Date('2022-10-19T22:18:21.817Z'),
+//   //       completed: true,
+//   //       id: uuidv4(),
+//   //       minutes: 10,
+//   //       seconds: 15,
+//   //     },
+//   //     {
+//   //       label: 'Active task',
+//   //       dateCreated: new Date('2022-09-30T22:18:21.817Z'),
+//   //       completed: false,
+//   //       id: uuidv4(),
+//   //       minutes: 0,
+//   //       seconds: 10,
+//   //     },
+//   //   ],
+//   //   filterName: 'All',
+//   // };
+
+//   // deleteTask = (id) => {
+//   //   this.setState(({ todoData }) => {
+//   //     const newData = todoData.filter((item) => item.id !== id);
+//   //     return {
+//   //       todoData: newData,
+//   //     };
+//   //   });
+//   // };
+
+//   // editTaskSubmit = (newData) => {
+//   //   this.setState(() => {
+//   //     return {
+//   //       todoData: newData,
+//   //     };
+//   //   });
+//   // };
+
+//   // changeCompleted = (id) => {
+//   //   this.setState(({ todoData }) => {
+//   //     const idx = todoData.findIndex((item) => item.id === id);
+//   //     const changeItem = todoData[idx];
+//   //     changeItem.completed = !changeItem.completed;
+//   //     const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
+//   //     return {
+//   //       todoData: newData,
+//   //     };
+//   //   });
+//   // };
+
+//   // addNewTask = (newTaskName, newMin, newSec) => {
+//   //   this.setState(({ todoData }) => {
+//   //     const oldData = todoData;
+//   //     const newTask = TodoApp.createNewTask(newTaskName, newMin, newSec);
+//   //     return {
+//   //       todoData: [...oldData, newTask],
+//   //     };
+//   //   });
+//   // };
+
+//   // changeFilter = (newFilterName) => {
+//   //   this.setState(() => {
+//   //     return {
+//   //       filterName: newFilterName,
+//   //     };
+//   //   });
+//   // };
+
+//   // clearCompleted = () => {
+//   //   this.setState(({ todoData }) => {
+//   //     return {
+//   //       todoData: todoData.filter((item) => !item.completed),
+//   //     };
+//   //   });
+//   // };
+
+//   // updateTime = (newSeconds, id) => {
+//   //   this.setState(({ todoData }) => {
+//   //     const minutes = Math.floor(newSeconds / 60);
+//   //     const seconds = newSeconds - minutes * 60;
+
+//   //     const idx = todoData.findIndex((item) => item.id === id);
+//   //     const changeItem = todoData[idx];
+//   //     const changeCompleted = !!(minutes === 0 && seconds === 0);
+
+//   //     changeItem.minutes = minutes;
+//   //     changeItem.seconds = seconds;
+//   //     changeItem.completed = changeCompleted;
+
+//   //     const newData = [...todoData.slice(0, idx), changeItem, ...todoData.slice(idx + 1)];
+//   //     return {
+//   //       todoData: newData,
+//   //     };
+//   //   });
+//   // };
+
+//   render() {
+//     const { filterName, todoData } = this.state;
+//     const activeCount = todoData.filter((item) => !item.completed).length;
+//     return (
+//       <section className="todoapp">
+//         <NewTaskForm addNewTask={this.addNewTask} />
+//         <section className="Main">
+//           <TaskList
+//             todoData={todoData}
+//             deleteTask={(id) => this.deleteTask(id)}
+//             editTaskSubmit={(newData) => this.editTaskSubmit(newData)}
+//             changeCompleted={(id) => this.changeCompleted(id)}
+//             filterName={filterName}
+//             updateTime={this.updateTime}
+//           />
+//           <Footer
+//             className="footer"
+//             changeFilter={(newFilterName) => this.changeFilter(newFilterName)}
+//             clearCompleted={() => this.clearCompleted()}
+//             activeCount={activeCount}
+//           />
+//         </section>
+//       </section>
+//     );
+//   }
+// }
 
 export default TodoApp;
